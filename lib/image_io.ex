@@ -19,41 +19,41 @@ defmodule ImageIO do
     end
   end
 
-  # def get_image_paths(path_input_image_folder) do
-  #   IO.puts("Loading images from: #{path_input_image_folder}")
-  #   path_input_image_folder
-  #     |> File.ls!()
-  #     |> Enum.filter(&is_image?/1)
-  #     |> Enum.map(fn file ->
-  #       Path.join(path_input_image_folder, file)
-  #     end)
-  # end
-
-  def get_image_paths(path) do
-    IO.puts("Loading images from: #{path}")
-
-    case File.ls(path) do
-      {:ok, entries} ->
-        IO.inspect(entries, label: "▶️ File.ls/1 returned")
-
-        images =
-          entries
-          |> Enum.filter(&is_image?/1)
-
-        IO.inspect(images, label: "▶️ After is_image? filter")
-
-        full_paths =
-          images
-          |> Enum.map(&Path.join(path, &1))
-
-        IO.inspect(full_paths, label: "▶️ Full paths to return")
-        full_paths
-
-      {:error, reason} ->
-        IO.inspect(reason, label: "❌ File.ls/1 error")
-        raise File.Error, action: "list directory", path: path, reason: reason
-    end
+  def get_image_paths(path_input_image_folder) do
+    IO.puts("Loading images from: #{path_input_image_folder}")
+    path_input_image_folder
+      |> File.ls!()
+      |> Enum.filter(&is_image?/1)
+      |> Enum.map(fn file ->
+        Path.join(path_input_image_folder, file)
+      end)
   end
+
+  # def get_image_paths(path) do
+  #   IO.puts("Loading images from: #{path}")
+
+  #   case File.ls(path) do
+  #     {:ok, entries} ->
+  #       IO.inspect(entries, label: "▶️ File.ls/1 returned")
+
+  #       images =
+  #         entries
+  #         |> Enum.filter(&is_image?/1)
+
+  #       IO.inspect(images, label: "▶️ After is_image? filter")
+
+  #       full_paths =
+  #         images
+  #         |> Enum.map(&Path.join(path, &1))
+
+  #       IO.inspect(full_paths, label: "▶️ Full paths to return")
+  #       full_paths
+
+  #     {:error, reason} ->
+  #       IO.inspect(reason, label: "❌ File.ls/1 error")
+  #       raise File.Error, action: "list directory", path: path, reason: reason
+  #   end
+  # end
 
 
 
@@ -67,7 +67,6 @@ defmodule ImageIO do
 
       filepath = Path.join(save_folder_path, filename)
 
-      # Assuming you are using a library like `Image` to save the image
       case Image.write(image, filepath) do
         {:ok, _} -> {:ok, filepath}
         {:error, reason} -> {:error, reason}
